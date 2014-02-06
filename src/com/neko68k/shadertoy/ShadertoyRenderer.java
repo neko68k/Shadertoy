@@ -2,6 +2,7 @@ package com.neko68k.shadertoy;
 
 import java.nio.Buffer;
 import java.nio.FloatBuffer;
+import java.util.Calendar;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -105,13 +106,16 @@ public class ShadertoyRenderer implements GLSurfaceView.Renderer{
 	@Override
 	public void onDrawFrame(GL10 arg0) {
 		// TODO Auto-generated method stub
+		Calendar cal = Calendar.getInstance();
 		GLES20.glViewport(0,  0,  mXres,  mYres);
 		GLES20.glUseProgram(mProgram);
 		float[] times = { 0.0f,0.0f,0.0f,0.0f};
 		int[] units = { 0, 1, 2, 3 };
-		float[] mouse = { mousePosX,mousePosY,mouseOriX,mouseOriY}; 
+		//float[] mouse = { mousePosX,mousePosY,mouseOriX,mouseOriY};
+		float[] mouse = {0.0f,0.0f,0.0f,0.0f};
 		float[] resos = { 0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f, 0.0f,0.0f,0.0f};
-		
+		float[] dates = {cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+				 (cal.get(Calendar.HOUR)*60.0f*60+cal.get(Calendar.MINUTE)*60+cal.get(Calendar.SECOND))};
 		
 		int l2 = GLES20.glGetUniformLocation(0, "iGlobalTime");
 		int l3 = GLES20.glGetUniformLocation( this.mProgram, "iResolution"        ); 
@@ -131,10 +135,10 @@ public class ShadertoyRenderer implements GLSurfaceView.Renderer{
 		// port all the input shit later
 		
 		if(l5!=0){
-			GLES20.glUniform1fv(l5,  4,  times);			
+			GLES20.glUniform1fv(l5,  4,  FloatBuffer.allocate(4).put(times));			
 		}
 		if(l8!=0){
-			GLES20.glUniform3fv(l8, 12, resos);
+			GLES20.glUniform3fv(l8, 12, FloatBuffer.allocate(12).put(resos));
 		}
 		
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES,  0,  6);
