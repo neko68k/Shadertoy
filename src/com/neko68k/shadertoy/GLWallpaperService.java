@@ -108,7 +108,8 @@ public abstract class GLWallpaperService extends WallpaperService {
 			/*if (LoggerConfig.ON) {
 				Log.d(TAG, "setRenderer(" + renderer + ")");
 			}*/
-
+			String test = null;
+			
 			glSurfaceView.setRenderer(renderer);
 			rendererHasBeenSet = true;
 		}

@@ -2,16 +2,39 @@
     package="com.neko68k.shadertoy"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
+    
+    <uses-feature android:name="android.software.live_wallpaper" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-    </application>
+	    <service
+		    android:name="com.neko68k.shadertoy.Shadertoy"
+		    android:label="@string/app_name"
+		    android:permission="android.permission.BIND_WALLPAPER" >
+		    <intent-filter>
+		        <action android:name="android.service.wallpaper.WallpaperService" />
+		    </intent-filter>
+		
+		    <meta-data
+		        android:name="android.service.wallpaper"
+		        android:resource="@xml/switching_wallpaper" />
+		</service>
+		
+	    
+		<activity
+		    android:name=".shadertoy.WallpaperSettings"
+		    android:exported="true"
+		    android:label="@string/app_name"
+		    android:permission="android.permission.BIND_WALLPAPER"
+		     >
+		</activity>
+	</application>	
 
 </manifest>
